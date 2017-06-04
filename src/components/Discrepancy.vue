@@ -1,5 +1,6 @@
 <template>
   <div class="discrepancy">
+    <div id="container" style="width:100%; height:400px;"></div>
     <section class="discrepancy-list">
         <el-card
           v-for="discrepancy in discrepancyList"
@@ -19,6 +20,7 @@
 
 <script>
 import axios from 'axios'
+import Highcharts from 'highcharts'
 
 export default {
   name: 'Discrepancy',
@@ -34,6 +36,29 @@ export default {
         this.discrepancyList = data
       })
       .catch(console.log)
+
+    Highcharts.chart('container', {
+      chart: {
+        type: 'pie'
+      },
+      title: {
+        text: 'Visão geral das licitações'
+      },
+      series: [{
+        name: 'Compras',
+        colorByPoint: true,
+        data: [{
+          name: 'Acima do valor',
+          y: 50
+        }, {
+          name: 'Neutras',
+          y: 20
+        }, {
+          name: 'Abaixo do valor',
+          y: 30
+        }]
+      }]
+    })
   },
   methods: {
     createALinkToDiscrepancy (id) {
