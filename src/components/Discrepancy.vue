@@ -1,6 +1,6 @@
 <template>
   <div class="discrepancy">
-    <div id="container" style="width:100%; height:400px;"></div>
+    <div id="chart" style="width:100%; height:400px;"></div>
     <section class="discrepancy-list">
         <el-card
           v-for="discrepancy in discrepancyList"
@@ -8,6 +8,9 @@
           class="box-card">
           <h2 class="card-title">
             {{ discrepancy.name | truncate(15) }}
+          </h2>
+          <h2 class="card-entity">
+            {{ discrepancy.entity }}
           </h2>
           <h3 class="card-percent">{{ discrepancy.score }}%</h3>
           <router-link class="el-button el-button--primary" :to="createALinkToDiscrepancy(discrepancy.id)">
@@ -37,7 +40,7 @@ export default {
       })
       .catch(console.log)
 
-    Highcharts.chart('container', {
+    Highcharts.chart('chart', {
       chart: {
         type: 'pie'
       },
@@ -49,13 +52,15 @@ export default {
         colorByPoint: true,
         data: [{
           name: 'Acima do valor',
-          y: 50
+          y: 30,
+          color: '#e74c3c'
         }, {
           name: 'Neutras',
-          y: 20
+          y: 20,
+          color: '#8caee0'
         }, {
           name: 'Abaixo do valor',
-          y: 30
+          y: 50
         }]
       }]
     })
@@ -73,6 +78,9 @@ export default {
 .discrepancy
   display flex
   flex-direction column
+
+  #chart
+    margin-top 20px
 
   .discrepancy-list
     display flex
@@ -95,6 +103,10 @@ export default {
         .card-title
           color #8caee0
           font-size 20px
+          text-align center
+
+        .card-entity
+          font-size 10px
           text-align center
 
         .card-percent
